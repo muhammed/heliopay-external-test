@@ -6,26 +6,28 @@ import {
   SuccessPaymentEvent,
   HelioApiAdapter,
 } from '@heliofi/react';
+import { Cluster } from '@solana/web3.js';
 
 import './styles/style.scss';
 
 const App = () => {
   const [paymentId, setPaymentId] = useState<string | null>(
-    '634588e442ea1859d6fd9afc'
+    '634d3c5c14052fbca3893802'
   );
+  const [cluster, setCluster] = useState<Cluster>('devnet');
 
   const getListCurrencies = () => {
-    HelioApiAdapter.listCurrencies('devnet')
+    HelioApiAdapter.listCurrencies(cluster)
       .then((res) => {
         // console.log(2, res);
       })
       .catch((err) => {
         // console.log(err);
       });
-  }
+  };
 
   useEffect(() => {
-    getListCurrencies()
+    getListCurrencies();
   }, []);
 
   return (
@@ -35,13 +37,34 @@ const App = () => {
         value={paymentId}
         onChange={(e) => setPaymentId(e.target.value)}
       />
+      <br />
+      <br />
+      <div>
+        <label>
+          <input
+            type="radio"
+            name="cluster"
+            value="devnet"
+            checked={cluster === 'devnet'}
+            onChange={() => setCluster('devnet')}
+          />
+          &nbsp; devnet
+        </label>
+        &nbsp;&nbsp;&nbsp;
+        <label>
+          <input
+            type="radio"
+            name="cluster"
+            value="mainnet-beta"
+            checked={cluster === 'mainnet-beta'}
+            onChange={() => setCluster('mainnet-beta')}
+          />
+          &nbsp; mainnet-beta
+        </label>
+      </div>
+      <br />
       <HelioPay
         cluster="devnet"
-        theme={{
-          colors: {
-            primary: '#770d5a',
-          }
-        }}
         paymentRequestId={paymentId}
         onSuccess={function (event: SuccessPaymentEvent): void {
           console.log('onSuccess', event);

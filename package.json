@@ -11,7 +11,7 @@
     "lint:fix": "yarn lint --fix"
   },
   "dependencies": {
-    "@heliofi/react": "1.0.1-alpha.1",
+    "@heliofi/react": "1.1.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
